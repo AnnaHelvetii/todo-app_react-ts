@@ -1,23 +1,20 @@
 import React, { FC, useState } from 'react';
 import Todo from './models/Todo';
 import ToDoList from './components/ToDoList';
+import ToDoAddForm from './components/ToDoAddForm';
 import './App.css';
 
 const App: FC = () => {
 	const [todos, setTodos] = useState<Todo[]>([]);
-    const [newTodoTitle, setNewTodoTitle] = useState<string>('');
 
-    const addTodo = () => {
-        if (newTodoTitle.trim() === '') return;
-
+    const addTodo = (title: string) => {
         const newTodo: Todo = {
             id: Date.now(),
-            title: newTodoTitle,
+            title: title,
             complete: false,
         };
 
         setTodos([...todos, newTodo]);
-        setNewTodoTitle('');
     }
 
     const deleteTodo = (id: number) => {
@@ -33,6 +30,9 @@ const App: FC = () => {
 	return (
 		<div className="App">
 			<h1>TO-DO-APP</h1>
+			<ToDoAddForm 
+				addToDo={addTodo}
+			/>
 			<ToDoList 
 				todos={todos}
 				toggleTodoComplete={toggleTodoComplete}

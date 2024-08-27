@@ -9,4 +9,9 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-  }
+}
+
+.todo-complete {
+	text-decoration: line-through;
+	color: teal;
+}

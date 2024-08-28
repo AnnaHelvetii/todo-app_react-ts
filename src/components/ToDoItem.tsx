@@ -9,17 +9,16 @@ interface ToDoItemProps {
 
 const ToDoItem: FC<ToDoItemProps> = ({ todo, toggleTodoComplete, deleteTodo }) => {
 	return (
-		<div>
-			<li className={todo.complete ? 'todo-complete' : 'none'}>
-				<input 
-					type="checkbox"
-					checked={todo.complete}
-					onChange={() => toggleTodoComplete(todo.id)}
-				/>
-				<span>{todo.title}</span>
-				<button onClick={() => deleteTodo(todo.id)}>Delete To-Do</button>
-			</li>
-		</div>
+		<li className={todo.complete ? 'todo-complete' : 'none'}>
+			<input 
+				className='input_checkbox'
+				type="checkbox"
+				checked={todo.complete}
+				onChange={() => toggleTodoComplete(todo.id)}
+			/>
+			<span>{todo.title}</span>
+			<button onClick={() => deleteTodo(todo.id)}>Delete To-Do</button>
+		</li>
 	);
 }
 

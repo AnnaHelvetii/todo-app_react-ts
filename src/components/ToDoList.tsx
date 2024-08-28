@@ -10,18 +10,16 @@ interface ToDoListProps {
 
 const ToDoList: FC<ToDoListProps> = ({ todos, toggleTodoComplete, deleteTodo }) => {
 	return (
-		<div>
-			<ul>
-				{todos.map(todo =>
-					<ToDoItem
-						key={todo.id} 
-						todo={todo} 
-						toggleTodoComplete={toggleTodoComplete}
-						deleteTodo={deleteTodo}
-					/>
-				)}
-			</ul>
-		</div>
+		<ul>
+			{todos.map(todo =>
+				<ToDoItem
+					key={todo.id} 
+					todo={todo} 
+					toggleTodoComplete={toggleTodoComplete}
+					deleteTodo={deleteTodo}
+				/>
+			)}
+		</ul>
 	);
 }
 

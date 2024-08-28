@@ -29,15 +29,17 @@ const App: FC = () => {
 
 	return (
 		<div className="App">
-			<h1>TO-DO-APP</h1>
-			<ToDoAddForm 
-				addToDo={addTodo}
-			/>
-			<ToDoList 
-				todos={todos}
-				toggleTodoComplete={toggleTodoComplete}
-				deleteTodo={deleteTodo}
-			/>
+			<div className="container">
+				<h1>TO-DO-APP</h1>
+				<ToDoAddForm 
+					addToDo={addTodo}
+				/>
+				<ToDoList 
+					todos={todos}
+					toggleTodoComplete={toggleTodoComplete}
+					deleteTodo={deleteTodo}
+				/>	
+			</div>
 		</div>
 	);
 }

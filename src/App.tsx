@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Todo from './models/Todo';
 import ToDoList from './components/ToDoList';
 import ToDoAddForm from './components/ToDoAddForm';
@@ -35,6 +36,19 @@ const App: FC = () => {
 		localStorage.setItem('todosState', JSON.stringify(newTodosList));
 	};
 
+	const handleOnDragEnd = (result: any) => {
+		const { destination, source } = result;
+		if (!destination) return;
+
+		const updatedTodos = Array.from(todos);
+		const [movedTodo] = updatedTodos.splice(source.index, 1);
+		movedTodo.complete = destination.droppableId === 'completed';
+		updatedTodos.splice(destination.index, 0, movedTodo);
+		setTodos(updatedTodos);
+
+		localStorage.setItem('todosState', JSON.stringify(updatedTodos));
+	};
+
 	useEffect(() => {
 		const todosState: string | null = localStorage.getItem('todosState');
 		if (todosState) {
@@ -49,11 +63,44 @@ const App: FC = () => {
 				<ToDoAddForm 
 					addToDo={addTodo}
 				/>
-				<ToDoList 
-					todos={todos}
-					toggleTodoComplete={toggleTodoComplete}
-					deleteTodo={deleteTodo}
-				/>	
+				<DragDropContext onDragEnd={handleOnDragEnd}>
+					<div className='todolists'>
+						<Droppable droppableId='incomplete'>
+							{(provided) => (
+								<div
+									className='todo-list incomplete'
+									ref={provided.innerRef}
+									{...provided.droppableProps}
+								>
+									<h3>Нужно сделать:</h3>
+									<ToDoList 
+										todos={todos.filter(todo => !todo.complete)}
+										toggleTodoComplete={toggleTodoComplete}
+										deleteTodo={deleteTodo}
+									/>
+									{provided.placeholder}
+								</div>
+							)}
+						</Droppable>
+						<Droppable droppableId='completed'>
+							{(provided) => (
+								<div
+									className='todo-list completed'
+									ref={provided.innerRef}
+									{...provided.droppableProps}
+								>
+									<h3>Сделано!</h3>
+									<ToDoList 
+										todos={todos.filter(todo => todo.complete)}
+										toggleTodoComplete={toggleTodoComplete}
+										deleteTodo={deleteTodo}
+									/>
+									{provided.placeholder}
+								</div>
+							)}
+						</Droppable>
+					</div>
+				</DragDropContext>
 			</div>
 		</div>
 	);

@@ -1,10 +1,11 @@
 .App {
+	box-sizing: border-box;
 	text-align: center;
-	max-width: 600px;
+	max-width: 1200px;
 	min-height: 100vh;
 	margin: 0 auto;
 	padding: 20px;
-	background-color: #fbe6c2;
+	background-color: #f6ebd9;
 }
 
 .container {
@@ -57,4 +58,12 @@ li span {
 .todo-complete {
 	text-decoration: line-through;
 	color: teal;
+}
+
+.todolists {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+	border: 1px solid darkred;
 }

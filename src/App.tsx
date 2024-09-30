@@ -57,14 +57,14 @@ const App: FC = () => {
 	}, []);
 
 	return (
-		<div className="App">
-			<div className="container">
-				<h1>TO-DO-APP</h1>
+		<div className='App'>
+			<div className='container'>
+				<h1 className='main-title'>Daily notes</h1>
 				<ToDoAddForm 
 					addToDo={addTodo}
 				/>
 				<DragDropContext onDragEnd={handleOnDragEnd}>
-					<div className='todolists'>
+					<div className='todo-lists'>
 						<Droppable droppableId='incomplete'>
 							{(provided) => (
 								<div
@@ -72,7 +72,7 @@ const App: FC = () => {
 									ref={provided.innerRef}
 									{...provided.droppableProps}
 								>
-									<h3>Нужно сделать:</h3>
+									<h2 className='todo-list__title'>To-Do:</h2>
 									<ToDoList 
 										todos={todos.filter(todo => !todo.complete)}
 										toggleTodoComplete={toggleTodoComplete}
@@ -89,7 +89,7 @@ const App: FC = () => {
 									ref={provided.innerRef}
 									{...provided.droppableProps}
 								>
-									<h3>Сделано!</h3>
+									<h2 className='todo-list__title'>Done!</h2>
 									<ToDoList 
 										todos={todos.filter(todo => todo.complete)}
 										toggleTodoComplete={toggleTodoComplete}

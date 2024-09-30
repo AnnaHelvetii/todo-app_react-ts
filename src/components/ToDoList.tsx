@@ -10,7 +10,7 @@ interface ToDoListProps {
 
 const ToDoList: FC<ToDoListProps> = ({ todos, toggleTodoComplete, deleteTodo }) => {
 	return (
-		<ul>
+		<ul className='todo-list-container'>
 			{todos.map((todo, index) => (
 				<Draggable 
 					key={todo.id}
@@ -22,16 +22,21 @@ const ToDoList: FC<ToDoListProps> = ({ todos, toggleTodoComplete, deleteTodo }) 
 							ref={provided.innerRef}
 							{...provided.draggableProps}
 							{...provided.dragHandleProps}
-							className={todo.complete ? 'todo-complete' : 'none'}
+							className={todo.complete ? 
+								'todo-list__item todo-list__item_complete' : 
+								'todo-list__item'}
 						>
 							<input 
-								className='input_checkbox'
+								className='todo-list__input-checkbox'
 								type="checkbox"
 								checked={todo.complete}
 								onChange={() => toggleTodoComplete(todo.id)}
 							/>
-							<span>{todo.title}</span>
-							<button onClick={() => deleteTodo(todo.id)}>Delete To-Do</button>
+							<span className='todo-list__item-title'>{todo.title}</span>
+							<button 
+								className='todo-list__button-delete-todo'
+								onClick={() => deleteTodo(todo.id)}>Delete To-Do
+							</button>
 						</li>
 					)}
 				</Draggable>

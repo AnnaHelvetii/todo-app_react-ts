@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@100;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
+
+:root {
+	--violet-blue: #2a2b48;
+	--light-peach: #ffedd4;
+}
 
 *,
 *::before,
@@ -7,21 +13,26 @@
 }
 
 .App {
-    font-family: Prompt;
-    background-image: url('/src/pics/night-sky.jpg');
+	background-color: #FBAB7E;
+	background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
     margin: 0;
     padding: 30px;
     min-height: 100vh;
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 200;
 }
 
 .container {
 	margin: 0 auto;
 	padding: 30px;
-	display: flex;
 	width: 100%;
 	max-width: 90%;
+	min-height: 80vh;
+	height: auto;
+	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	gap: 30px;
 	background-color: rgba(255, 255, 255, 0.5);
@@ -32,6 +43,7 @@
 .main-title {
 	text-align: center;
 	font-size: 84px;
+	margin-bottom: 20px;
 }
 
 /* To-do add form */
@@ -44,23 +56,26 @@
 .add-todo-form__input {
     padding: 10px;
     width: 70%;
-    border: 1px solid #ccc;
+	border: 0.5px solid var(--violet-blue);
     border-radius: 5px;
     margin-right: 10px;
+	font-family: "Zen Maru Gothic", serif;
 }
 
 .add-todo-form__button {
     padding: 10px 15px;
-    background-color: #264f30;
-    border: none;
-    color: white;
+    background-color: transparent;
+    border: 0.5px solid var(--violet-blue);
+    color: var(--violet-blue);
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.8s ease, color 0.5s ease, border 0.5s linear;
 }
 
 .add-todo-form__button:hover {
-    background-color: #218838;
+	background-color: #fbac7ed3;
+	border: none;
+	color: var(--light-peach);
 }
 
 /* Styles for lists */
@@ -69,28 +84,36 @@
 	width: 100%;
     display: flex;
     justify-content: space-between;
-	align-items: flex-start;
-	gap: 30px;
+	align-items: stretch;
+	gap: 50px;
+	flex-grow: 1;
 }
 
 .todo-list {
     width: 48%;
-    padding: 10px;
-    background-color: #f9f9f9;
+    padding: 10px 10px 30px 10px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    background-color: var(--light-peach);
+	box-shadow: 0 1px 5px #fbac7e7b;
 }
 
 .todo-list__title {
     text-align: center;
-    color: #333;
+    color: var(--violet-blue);
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 200;
 }
 
 /* Styles for todos */
 
 .todo-list-container {
+    padding: 0 40px;
+	margin-bottom: 10px;
     list-style-type: none;
-    padding: 0;
+	flex-grow: 1;
+
+	
 }
 
 .todo-list__item {
@@ -99,29 +122,27 @@
     align-items: center;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #f4f4f4;
+	background-image: linear-gradient(to right, #ffecd2 0%, #fff0eb 50%);
     border-radius: 5px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-	transition: background-color 0.3s ease;
+    box-shadow: 0 1px 8px #fbac7e9a;
+	transition: background-color 0.8s ease, box-shadow 0.8s ease, border 0.8s linear;
 }
 
 .todo-list__item-title {
 	font-family: Arial;
 	flex-grow: 1;
+	font-family: "Zen Maru Gothic", serif;
 	white-space: normal;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 }
 
-/* Перетаскиваемый элемент */
-.todo-list__item:hover {
-    background-color: #eaeaea;
-}
+/* Dragging item */
 
-.todo-list__item_complete {
-    background-color: #f4f4f4;
-    color: #264f30;
-    text-decoration: line-through;
+.todo-list__item:hover {
+    background-color: var(--light-peach);
+	box-shadow: none;
+	border: 1px solid #fbac7ed3;
 }
 
 .todo-list__input-checkbox {
@@ -157,30 +178,21 @@
 
 .todo-list__button-delete-todo {
     background-color: transparent;
-    border: 1px solid darkred;
-    color: darkred;
+    border: 0.5px solid var(--violet-blue);
+    color: #4b4b4b;
     padding: 5px 10px;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.8s ease, color 0.5s ease, border 0.5s linear;
 }
 
 .todo-list__button-delete-todo:hover {
-    background-color: #eaa2a9;
+    background-color: #fbac7ed3;
+	border: none;
+	color: var(--light-peach);
 }
 
-/* Styles for Drop area */
-
-.todo-list.incomplete {
-    background-color: #dddddd;
-}
-
-.todo-list.completed {
-    background-color: #dddddd;
-}
-
-/* Стили для перетаскиваемых элементов */
 .dragging {
-    background-color: #d1ecf1 !important;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	background: var(--light-peach) !important;
+	box-shadow: 0 0 15px #fbac7ed3;
 }

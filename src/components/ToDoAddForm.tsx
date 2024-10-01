@@ -26,8 +26,8 @@ const ToDoAddForm: FC<ToDoAddFormProps> = ({ addToDo }) => {
 		>
 			<input
 				className='add-todo-form__input'
-				type="text"
-				placeholder="Add new To-Do"
+				type='text'
+				placeholder='Don`t forget about...'
 				value={title}
 				onChange={handleChange}
 			/>

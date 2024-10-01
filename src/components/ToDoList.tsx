@@ -17,14 +17,19 @@ const ToDoList: FC<ToDoListProps> = ({ todos, toggleTodoComplete, deleteTodo }) 
 					draggableId={todo.id.toString()}
 					index={index}
 				>
-					{(provided) => (
+					{(provided, snapshot) => (
 						<li 
 							ref={provided.innerRef}
 							{...provided.draggableProps}
 							{...provided.dragHandleProps}
-							className={todo.complete ? 
+							className={`
+								${todo.complete ? 
 								'todo-list__item todo-list__item_complete' : 
-								'todo-list__item'}
+								'todo-list__item'} 
+								${snapshot.isDragging ?
+								'dragging' :
+								'none'}
+							`}
 						>
 							<input 
 								className='todo-list__input-checkbox'
@@ -35,7 +40,7 @@ const ToDoList: FC<ToDoListProps> = ({ todos, toggleTodoComplete, deleteTodo }) 
 							<span className='todo-list__item-title'>{todo.title}</span>
 							<button 
 								className='todo-list__button-delete-todo'
-								onClick={() => deleteTodo(todo.id)}>Delete To-Do
+								onClick={() => deleteTodo(todo.id)}>Delete
 							</button>
 						</li>
 					)}

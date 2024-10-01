@@ -38,14 +38,18 @@ const App: FC = () => {
 
 	const handleOnDragEnd = (result: any) => {
 		const { destination, source } = result;
-		if (!destination) return;
-
+		if (!destination || (
+			source.droppableId === destination.droppableId &&
+			source.index === destination.index)) {
+				return;
+			}
 		const updatedTodos = Array.from(todos);
 		const [movedTodo] = updatedTodos.splice(source.index, 1);
-		movedTodo.complete = destination.droppableId === 'completed';
+		if (source.droppableId !== destination.droppableId) {
+			movedTodo.complete = destination.droppableId === 'completed';
+		}
 		updatedTodos.splice(destination.index, 0, movedTodo);
 		setTodos(updatedTodos);
-
 		localStorage.setItem('todosState', JSON.stringify(updatedTodos));
 	};
 

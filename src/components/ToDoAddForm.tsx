@@ -24,13 +24,15 @@ const ToDoAddForm: FC<ToDoAddFormProps> = ({ addToDo }) => {
 			className='add-todo-form'
 			onSubmit={handleSubmit}
 		>
-			<input
-				className='add-todo-form__input'
-				type='text'
-				placeholder='Don`t forget about...'
-				value={title}
-				onChange={handleChange}
-			/>
+			<div className="input-wrapper">
+				<input
+					className='add-todo-form__input'
+					type='text'
+					placeholder='Don`t forget about...'
+					value={title}
+					onChange={handleChange}
+				/>
+			</div>
 			<button
 				className='add-todo-form__button'
 				type='submit'>Add</button>

@@ -4,9 +4,11 @@ import Todo from './models/Todo';
 import ToDoList from './components/ToDoList';
 import ToDoAddForm from './components/ToDoAddForm';
 import './App.css';
+import Footer from './components/Footer';
 
 const App: FC = () => {
-	const [todos, setTodos] = useState<Todo[]>([]);
+	const [incompleteTodos, setIncompleteTodos] = useState<Todo[]>([]);
+	const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
 
 	const addTodo = (title: string) => {
 		const newTodo: Todo = {
@@ -15,26 +17,52 @@ const App: FC = () => {
             complete: false,
         };
 
-		const newTodosList: Todo[] = [...todos, newTodo];
-		setTodos(newTodosList);
-
-		localStorage.setItem('todosState', JSON.stringify(newTodosList));
+		const newTodosList: Todo[] = [...incompleteTodos, newTodo];
+		setIncompleteTodos(newTodosList);
+		localStorage.setItem('incompleteTodos', JSON.stringify(newTodosList));
     }
 
-    const deleteTodo = (id: number) => {
-		const newTodosList: Todo[] = todos.filter(todo => todo.id !== id);
-        setTodos(newTodosList);
-
-		localStorage.setItem('todosState', JSON.stringify(newTodosList));
+    const deleteTodo = (id: number, isComplete: boolean) => {
+		if (isComplete) {
+			const newCompletedTodos: Todo[] = completedTodos.filter(todo => todo.id !== id);
+			setCompletedTodos(newCompletedTodos);
+			localStorage.setItem('completedTodos', JSON.stringify(newCompletedTodos));
+		} else {
+			const newIncompletedTodos: Todo[] = incompleteTodos.filter(todo => todo.id !== id);
+			setIncompleteTodos(newIncompletedTodos);
+			localStorage.setItem('incompleteTodos', JSON.stringify(newIncompletedTodos));
+		}
     };
 
 	const toggleTodoComplete = (id: number) => {
-		const newTodosList: Todo[] = todos.map(todo =>
-			todo.id === id ? {...todo, complete: !todo.complete} : todo);
-		setTodos(newTodosList);
+		const isIncompleteTodo = incompleteTodos.some(todo => todo.id === id);
+		const isCompletedTodo = completedTodos.some(todo => todo.id === id);
+	
+		if (isIncompleteTodo) {
+			const updatedIncompleteTodos = incompleteTodos.filter(todo => todo.id !== id);
+			const completedTodo = incompleteTodos.find(todo => todo.id === id)!;
+			completedTodo.complete = true;
+			const updatedCompletedTodos = [...completedTodos, completedTodo];
+	
+			setIncompleteTodos(updatedIncompleteTodos);
+			localStorage.setItem('incompleteTodos', JSON.stringify(updatedIncompleteTodos));
+			setCompletedTodos(updatedCompletedTodos);
+			localStorage.setItem('completedTodos', JSON.stringify(updatedCompletedTodos));
+		} 
 
-		localStorage.setItem('todosState', JSON.stringify(newTodosList));
+		else if (isCompletedTodo) {
+			const updatedCompletedTodos = completedTodos.filter(todo => todo.id !== id);
+			const incompleteTodo = completedTodos.find(todo => todo.id === id)!;
+			incompleteTodo.complete = false;
+			const updatedIncompleteTodos = [...incompleteTodos, incompleteTodo];
+	
+			setCompletedTodos(updatedCompletedTodos);
+			localStorage.setItem('completedTodos', JSON.stringify(updatedCompletedTodos));	
+			setIncompleteTodos(updatedIncompleteTodos);
+			localStorage.setItem('incompleteTodos', JSON.stringify(updatedIncompleteTodos));
+		}
 	};
+	
 
 	const handleOnDragEnd = (result: any) => {
 		const { destination, source } = result;
@@ -43,20 +71,46 @@ const App: FC = () => {
 			source.index === destination.index)) {
 				return;
 			}
-		const updatedTodos = Array.from(todos);
-		const [movedTodo] = updatedTodos.splice(source.index, 1);
+		
+		let sourceItems = source.droppableId === 'incomplete' 
+			? Array.from(incompleteTodos) 
+			: Array.from(completedTodos);
+		let destinationItems = destination.droppableId === 'incomplete' 
+			? Array.from(incompleteTodos) 
+			: Array.from(completedTodos);
+		
+		const [movedTodo] = sourceItems.splice(source.index, 1);
+
 		if (source.droppableId !== destination.droppableId) {
 			movedTodo.complete = destination.droppableId === 'completed';
 		}
-		updatedTodos.splice(destination.index, 0, movedTodo);
-		setTodos(updatedTodos);
-		localStorage.setItem('todosState', JSON.stringify(updatedTodos));
+
+		destinationItems.splice(destination.index, 0, movedTodo);
+
+		if (source.droppableId === 'incomplete') {
+			setIncompleteTodos(sourceItems);
+		} else {
+			setCompletedTodos(sourceItems);
+		}
+
+		if (destination.droppableId === 'incomplete') {
+			setIncompleteTodos(destinationItems);
+		} else {
+			setCompletedTodos(destinationItems);
+		}
+
+		localStorage.setItem('incompleteTodos', JSON.stringify(sourceItems));
+		localStorage.setItem('completedTodos', JSON.stringify(destinationItems));
 	};
 
 	useEffect(() => {
-		const todosState: string | null = localStorage.getItem('todosState');
-		if (todosState) {
-			setTodos(JSON.parse(todosState));
+		const incompletedState: string | null = localStorage.getItem('incompleteTodos');
+		const completedState: string | null = localStorage.getItem('completedTodos');
+		if (incompletedState) {
+			setIncompleteTodos(JSON.parse(incompletedState))
+		}
+		if (completedState) {
+			setCompletedTodos(JSON.parse(completedState))
 		}
 	}, []);
 
@@ -78,9 +132,9 @@ const App: FC = () => {
 								>
 									<h2 className='todo-list__title'>To-Do:</h2>
 									<ToDoList 
-										todos={todos.filter(todo => !todo.complete)}
+										todos={incompleteTodos}
 										toggleTodoComplete={toggleTodoComplete}
-										deleteTodo={deleteTodo}
+										deleteTodo={id => deleteTodo(id, false)}
 									/>
 									{provided.placeholder}
 								</div>
@@ -95,9 +149,9 @@ const App: FC = () => {
 								>
 									<h2 className='todo-list__title'>Done!</h2>
 									<ToDoList 
-										todos={todos.filter(todo => todo.complete)}
+										todos={completedTodos}
 										toggleTodoComplete={toggleTodoComplete}
-										deleteTodo={deleteTodo}
+										deleteTodo={id => deleteTodo(id, true)}
 									/>
 									{provided.placeholder}
 								</div>
@@ -106,6 +160,7 @@ const App: FC = () => {
 					</div>
 				</DragDropContext>
 			</div>
+			<Footer />
 		</div>
 	);
 }

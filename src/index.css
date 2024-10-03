@@ -14,7 +14,6 @@ main {
 }
 
 h1 {
-	/* font-size: 2em; */
 	margin: 0;
 }
 
@@ -34,9 +33,9 @@ a {
 }
 
 abbr[title] {
-	border-bottom: none; /* 1 */
-	text-decoration: underline; /* 2 */
-	text-decoration: underline dotted; /* 2 */
+	border-bottom: none;
+	text-decoration: underline;
+	text-decoration: underline dotted;
 }
 
 b,
@@ -99,9 +98,10 @@ select {
 button,
 [type="button"],
 [type="reset"],
-/* [type="submit"] {
+[type="submit"] {
 	-webkit-appearance: button;
-} */
+	appearance: button;
+}
 
 button::-moz-focus-inner,
 [type="button"]::-moz-focus-inner,
@@ -123,12 +123,12 @@ fieldset {
 }
 
 legend {
-	box-sizing: border-box; /* 1 */
-	color: inherit; /* 2 */
-	display: table; /* 1 */
-	max-width: 100%; /* 1 */
-	padding: 0; /* 3 */
-	white-space: normal; /* 1 */
+	box-sizing: border-box;
+	color: inherit;
+	display: table;
+	max-width: 100%;
+	padding: 0;
+	white-space: normal;
 }
 
 progress {
@@ -141,8 +141,8 @@ textarea {
 
 [type="checkbox"],
 [type="radio"] {
-	box-sizing: border-box; /* 1 */
-	padding: 0; /* 2 */
+	box-sizing: border-box;
+	padding: 0;
 }
 
 [type="number"]::-webkit-inner-spin-button,
@@ -151,7 +151,8 @@ textarea {
 }
 
 [type="search"] {
-	/* -webkit-appearance: textfield; */
+	-webkit-appearance: textfield;
+	appearance: textfield;
 	outline-offset: -2px;
 }
 

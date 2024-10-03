@@ -33,14 +33,14 @@ const ToDoList: FC<ToDoListProps> = ({ todos, toggleTodoComplete, deleteTodo }) 
 						>
 							<input 
 								className='todo-list__input-checkbox'
-								type="checkbox"
+								type='checkbox'
 								checked={todo.complete}
 								onChange={() => toggleTodoComplete(todo.id)}
 							/>
 							<span className='todo-list__item-title'>{todo.title}</span>
 							<button 
 								className='todo-list__button-delete-todo'
-								onClick={() => deleteTodo(todo.id)}>Delete
+								onClick={() => deleteTodo(todo.id)}>Del
 							</button>
 						</li>
 					)}

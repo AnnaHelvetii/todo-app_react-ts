@@ -33,7 +33,7 @@ const Footer: FC = () => {
 				</ul>
 				<div className="footer__copyright">
 					<span>© 2024 </span>
-					<a href="https://soboleva-anna.ru/">soboleva-anna.ru</a>
+					<a href="https://soboleva-anna.ru/" target='_blank' rel="noreferrer">soboleva-anna.ru</a>
 				</div>
 			</div>
 		</footer>

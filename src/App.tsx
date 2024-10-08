@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import './App.css';
 import Todo from './models/Todo';
 import ToDoList from './components/ToDoList';
 import ToDoAddForm from './components/ToDoAddForm';
-import './App.css';
 import Footer from './components/Footer';
 
 const App: FC = () => {
@@ -67,52 +67,81 @@ const App: FC = () => {
 	const handleOnDragEnd = (result: any) => {
 		const { destination, source } = result;
 		if (!destination || (
-			source.droppableId === destination.droppableId &&
-			source.index === destination.index)) {
-				return;
+				source.droppableId === destination.droppableId && 
+				source.index === destination.index
+				)
+			) {
+			return;
 			}
-		
-		let sourceItems = source.droppableId === 'incomplete' 
-			? Array.from(incompleteTodos) 
-			: Array.from(completedTodos);
-		let destinationItems = destination.droppableId === 'incomplete' 
-			? Array.from(incompleteTodos) 
-			: Array.from(completedTodos);
-		
-		const [movedTodo] = sourceItems.splice(source.index, 1);
-
-		if (source.droppableId !== destination.droppableId) {
+		if (source.droppableId === destination.droppableId) {
+			if (source.droppableId === 'incomplete') {
+				const newIncompleteTodos = [
+					...incompleteTodos.slice(0, source.index), 
+					...incompleteTodos.slice(source.index + 1),
+				];
+				const movedTodo = incompleteTodos[source.index];
+				const updatedIncompleteTodos = [
+					...newIncompleteTodos.slice(0, destination.index),
+					movedTodo,
+					...newIncompleteTodos.slice(destination.index),
+				];
+				setIncompleteTodos(updatedIncompleteTodos);
+			} else if (source.droppableId === 'completed') {
+				const newCompletedTodos = [
+				...completedTodos.slice(0, source.index),
+				...completedTodos.slice(source.index + 1),
+				];
+				const movedTodo = completedTodos[source.index];
+				const updatedCompletedTodos = [
+					...newCompletedTodos.slice(0, destination.index),
+					movedTodo,
+					...newCompletedTodos.slice(destination.index),
+				];
+				setCompletedTodos(updatedCompletedTodos);
+			}
+		} else {
+			let sourceItems = source.droppableId === 'incomplete' ? incompleteTodos : completedTodos;
+			let destinationItems = destination.droppableId === 'incomplete' ? incompleteTodos : completedTodos;
+			const newSourceItems = [
+				...sourceItems.slice(0, source.index),
+				...sourceItems.slice(source.index + 1),
+			];
+			const movedTodo = sourceItems[source.index];
 			movedTodo.complete = destination.droppableId === 'completed';
+			const newDestinationItems = [
+				...destinationItems.slice(0, destination.index),
+				movedTodo,
+				...destinationItems.slice(destination.index),
+			];
+			if (source.droppableId === 'incomplete') {
+				setIncompleteTodos(newSourceItems);
+				setCompletedTodos(newDestinationItems);
+			} else {
+				setCompletedTodos(newSourceItems);
+				setIncompleteTodos(newDestinationItems);
+			}
 		}
-
-		destinationItems.splice(destination.index, 0, movedTodo);
-
-		if (source.droppableId === 'incomplete') {
-			setIncompleteTodos(sourceItems);
-		} else {
-			setCompletedTodos(sourceItems);
-		}
-
-		if (destination.droppableId === 'incomplete') {
-			setIncompleteTodos(destinationItems);
-		} else {
-			setCompletedTodos(destinationItems);
-		}
-
-		localStorage.setItem('incompleteTodos', JSON.stringify(sourceItems));
-		localStorage.setItem('completedTodos', JSON.stringify(destinationItems));
 	};
 
 	useEffect(() => {
-		const incompletedState: string | null = localStorage.getItem('incompleteTodos');
-		const completedState: string | null = localStorage.getItem('completedTodos');
+		const incompletedState = localStorage.getItem('incompleteTodos');
+		const completedState = localStorage.getItem('completedTodos');
 		if (incompletedState) {
-			setIncompleteTodos(JSON.parse(incompletedState))
+			setIncompleteTodos(JSON.parse(incompletedState));
 		}
 		if (completedState) {
-			setCompletedTodos(JSON.parse(completedState))
+			setCompletedTodos(JSON.parse(completedState));
 		}
 	}, []);
+
+	useEffect(() => {
+		if (incompleteTodos.length > 0) {
+		localStorage.setItem('incompleteTodos', JSON.stringify(incompleteTodos));
+	}
+		if (completedTodos.length > 0) {
+			localStorage.setItem('completedTodos', JSON.stringify(completedTodos));
+		}
+	}, [incompleteTodos, completedTodos]);
 
 	return (
 		<div className='App'>

@@ -2,8 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
 
 :root {
-	--violet-blue: #2a2b48;
 	--light-peach: #ffedd4;
+	--main-peach: #FBAB7E;
+	--dark-grey: #4b4b4b;
+	--sand-yellow: #F7CE68;
 }
 
 *,
@@ -13,27 +15,25 @@
 }
 
 .App {
-	background-color: #FBAB7E;
-	background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
-    margin: 0;
-    padding: 30px;
     min-height: 100vh;
+	margin: 0;
+    padding: 30px;
+	background-color: var(--main-peach);
+	background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: space-between;
 	gap: 50px;
 	font-family: "Montserrat", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 200;
+	font-size: 16px;
 }
 
 .container {
-	margin: 0 auto;
-	padding: 30px;
+	min-height: 80vh;
 	width: 100%;
 	max-width: 90%;
-	min-height: 80vh;
-	height: auto;
+	margin: 0 auto;
+	padding: 30px;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: flex-start;
@@ -46,8 +46,10 @@
 
 .main-title {
 	text-align: center;
-	font-size: 84px;
+	font-size: 5rem;
 	margin-bottom: 20px;
+	color: #FFFFFF;
+	text-shadow: -5px 5px 0px #F7CE68, -10px 10px 0px var(--main-peach), -15px 15px 0px var(--dark-grey);
 }
 
 /* To-do add form */
@@ -60,8 +62,8 @@
 }
 
 .input-wrapper {
-	display: inline-block;
 	width: 70%;
+	display: inline-block;
 	position: relative;
 }
 
@@ -76,10 +78,9 @@
 }
 
 .add-todo-form__input {
-    padding-left: 40px;
-	padding: 10px;
     width: 100%;
-	border: 0.5px solid var(--violet-blue);
+	padding: 10px;
+	border: 0.5px solid var(--sand-yellow);
     border-radius: 5px;
 	font-family: "Zen Maru Gothic", serif;
 	box-sizing: border-box;
@@ -94,16 +95,16 @@
 .add-todo-form__button {
     padding: 10px 15px;
     background-color: transparent;
-    border: 0.5px solid var(--violet-blue);
+    border: 0.5px solid var(--dark-grey);
+    border-radius: 5px;
     color: var(--violet-blue);
     cursor: pointer;
-    border-radius: 5px;
     transition: background-color 0.8s ease, color 0.5s ease, border 0.5s linear;
 }
 
 .add-todo-form__button:hover {
-	background-color: #fbac7ed3;
-	border: 0.5px solid #fbac7ed3;
+	background-color: var(--main-peach);
+	border: 0.5px solid var(--main-peach);
 	color: var(--light-peach);
 }
 
@@ -136,10 +137,9 @@
 
 .todo-list__title {
     text-align: center;
-    color: var(--violet-blue);
+    color: var(--dark-grey);
 	font-family: "Montserrat", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 200;
+	text-shadow: -3px 3px 0px var(--main-peach), -5px 5px 0px var(--sand-yellow), -7px 7px 0px white;
 }
 
 /* Styles for todo-items */
@@ -159,17 +159,17 @@
 
 .todo-list__item:hover {
 	background-color: var(--light-peach);
-	border-color: #fbac7ed3;
-	box-shadow: 2px 2px 10px #fbac7ebe;
+	border-color: var(--main-peach);
+	box-shadow: 2px 2px 10px var(--main-peach);
 }
 
 .todo-list__input-checkbox {
+	height: 25px;
+	width: 25px;
+	margin-right: 10px;
 	appearance: none;
 	-webkit-appearance: none;
 	-moz-appearance: none;
-	width: 25px;
-	height: 25px;
-	margin-right: 10px;
 	flex-shrink: 0;
 	position: relative;
 	cursor: pointer;
@@ -206,9 +206,9 @@
 .todo-list__button-delete-todo {
     padding: 5px 10px;
 	margin-left: 10px;
-    color: #4b4b4b;
+    color: var(--dark-grey);
     background-color: transparent;
-    border: 0.5px solid var(--violet-blue);
+    border: 0.5px solid var(--dark-grey);
     border-radius: 5px;
 	flex-shrink: 0;
     cursor: pointer;
@@ -216,14 +216,14 @@
 }
 
 .todo-list__button-delete-todo:hover {
-    background-color: #fbac7ed3;
-	border: 0.5px solid #fbac7ed3;
+    background-color: var(--main-peach);
+	border: 0.5px solid var(--main-peach);
 	color: var(--light-peach);
 }
 
 .dragging {
 	background: var(--light-peach) !important;
-	box-shadow: 0 0 15px #F7CE68;
+	box-shadow: 0 0 15px var(--sand-yellow);
 }
 
 /* Footer */
@@ -231,6 +231,7 @@
 .footer {
 	margin: 0;
 	padding: 0;
+	color: var(--dark-grey);
 }
 
 .footer__wrapper {
@@ -255,5 +256,5 @@
 
 .footer__copyright a {
 	text-decoration: none;
-	color: #000;
+	color: var(--dark-grey);
 }
